@@ -1,0 +1,19 @@
+.container {
+  max-width: 500px;
+  max-height: 400px;
+  margin: 0 auto;
+  margin-top: 5rem;
+}
+#show-users {
+  margin-top: 30px;
+}
+.user {
+  background-color: lightblue;
+  margin: 20px auto;
+  padding: 10px;
+  border: 1px solid darkblue;
+}
+.update,
+.delete {
+  float: right;
+}
