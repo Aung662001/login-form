@@ -58,6 +58,7 @@ const server = http.createServer((req, res) => {
       });
       req.on("end", () => {
         const changeUser = JSON.parse(data);
+        console.log(changeUser);
         const newName = JSON.parse(data).name;
         const isHasEmail = users.find(
           (user) => user.email === changeUser.email
@@ -73,7 +74,6 @@ const server = http.createServer((req, res) => {
           res.end();
         }
       });
-      res.end();
     } else if (method === "DELETE") {
       console.log("this is ", method);
       let data = "";
