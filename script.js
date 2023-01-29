@@ -89,7 +89,7 @@ const updateHandler = async () => {
   const nameTag = document.querySelector(".userName");
   const emailTag = document.querySelector(".email");
   const passwordTag = document.querySelector(".password");
-
+  emailTag.ariaDisabled;
   let nameC = nameTag.value;
   let emailC = emailTag.value;
   let passwordC = passwordTag.value;
@@ -110,8 +110,10 @@ const updateHandler = async () => {
       clearInput();
     }
   };
+
   await checker();
   await fetchData();
+  await clearInput();
 };
 const deleteHandler = async (name, email, password) => {
   const emailTag = document.querySelector(".email");
