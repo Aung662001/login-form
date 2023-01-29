@@ -4,7 +4,7 @@ const fetchData = async () => {
   const response = await fetch(url);
 
   const dataFromServer = await response.json();
-
+  console.log(dataFromServer);
   const users = () => {
     const UserDivTag = document.getElementById("show-users");
     UserDivTag.innerHTML = "";
@@ -13,13 +13,15 @@ const fetchData = async () => {
 
       user.innerHTML = `
       <div class="user">
-        <span class="user-name"><b>User name:</b>${dataFromServer[i].name}</span><br>
-        <span class="user-email"><b>Email:</b>${dataFromServer[i].email}</span><br>
-        <span class="password"><b>Pass:${dataFromServer[i].password}</span>
+        <span class="user-name"><b>User name : </b>${dataFromServer[i].name}</span><br>
+        <span class="user-email"><b>Email : </b>${dataFromServer[i].email}</span><br>
+        <span class="user-email"><b>CreatedAt : </b>${dataFromServer[i].createdAt}</span><br>
+        <span class="user-email"><b>UpdatedAt : </b>${dataFromServer[i].updatedAt}</span><br>
+        <span class="password"><b>Pass : ${dataFromServer[i].password}</span>
         <button type="button" class="btn btn-primary update" onclick="updateInput(
           '${dataFromServer[i].name}','${dataFromServer[i].email}','${dataFromServer[i].password}')">Update</button>
         <button type="button" class="btn btn-danger deleteBtnForDelete" onclick="deleteHandler
-        ('${dataFromServer[i].name}','${dataFromServer[i].email}','${dataFromServer[i].password}')"id="delete">Delete</button>
+        ('${dataFromServer[i].name}','${dataFromServer[i].email}','${dataFromServer[i].password}')" id="delete">Delete</button>
       </div>
       
   `;
@@ -62,7 +64,7 @@ const registerHandler = async (e) => {
 
   //console.log(await response.json());
   await fetchData();
-  await clearInput();
+  clearInput();
 };
 
 const clearInput = () => {
@@ -129,4 +131,4 @@ const deleteHandler = async (name, email, password) => {
   //     });
   //   }
 };
-deleteHandler();
+//deleteHandler();

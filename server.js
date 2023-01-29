@@ -1,11 +1,38 @@
 const fs = require("fs");
 const http = require("http");
+const { newDateString } = require("./helper");
+
+const date = new Date();
 
 const users = [
-  { name: "user1", email: "user1@gmail.com", password: "dsdddfsf" },
-  { name: "user2", email: "user2@gmail.com", password: "dergfg" },
-  { name: "user3", email: "user3@gmail.com", password: "dsddsf" },
-  { name: "user4", email: "user4@gmail.com", password: "dsdsf" },
+  {
+    name: "user1",
+    email: "user1@gmail.com",
+    password: "dsdddfsf",
+    createdAt: `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`,
+    updatedAt: `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`,
+  },
+  {
+    name: "user2",
+    email: "user2@gmail.com",
+    password: "dergfg",
+    createdAt: `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`,
+    updatedAt: `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`,
+  },
+  {
+    name: "user3",
+    email: "user3@gmail.com",
+    password: "dsddsf",
+    createdAt: `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`,
+    updatedAt: `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`,
+  },
+  {
+    name: "user4",
+    email: "user4@gmail.com",
+    password: "dsdsf",
+    createdAt: `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`,
+    updatedAt: `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`,
+  },
 ];
 
 const server = http.createServer((req, res) => {
@@ -44,10 +71,13 @@ const server = http.createServer((req, res) => {
       });
       req.on("end", () => {
         const newUser = JSON.parse(data);
+        newUser.createdAt = newDateString(); // created date
+        newUser.updatedAt = newDateString(); // update date   Are the same in first data post
+        console.log(newUser);
         users.push(newUser);
         res.writeHead(200, { "Content-Type": "application/json" });
         res.write(JSON.stringify({ users }));
-        console.log(users);
+        //console.log(users);
         res.end();
       });
     } else if (method === "PUT") {
@@ -64,7 +94,9 @@ const server = http.createServer((req, res) => {
           (user) => user.email === changeUser.email
         );
         if (isHasEmail) {
+          // create new date obj
           isHasEmail.name = newName;
+          isHasEmail.updatedAt = newDateString(); // updating Date
           res.writeHead(200, { "Content-Type": "application/json" });
           res.write(JSON.stringify(users));
           console.log(users);
