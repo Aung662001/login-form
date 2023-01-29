@@ -12,8 +12,10 @@
   margin: 20px auto;
   padding: 10px;
   border: 1px solid darkblue;
+  position: relative;
 }
 .update,
-.delete {
-  float: right;
+.deleteBtnForDelete {
+  position: relative;
+  left: 200px;
 }

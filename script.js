@@ -1,5 +1,6 @@
+const url = "http://localhost:3000/users";
+
 const fetchData = async () => {
-  const url = "http://localhost:3000/users";
   const response = await fetch(url);
 
   const dataFromServer = await response.json();
@@ -17,7 +18,8 @@ const fetchData = async () => {
         <span class="password"><b>Pass:${dataFromServer[i].password}</span>
         <button type="button" class="btn btn-primary update" onclick="updateInput(
           '${dataFromServer[i].name}','${dataFromServer[i].email}','${dataFromServer[i].password}')">Update</button>
-        <button type="button" class="btn btn-danger delete">Delete</button>
+        <button type="button" class="btn btn-danger deleteBtnForDelete" onclick="deleteHandler
+        ('${dataFromServer[i].name}','${dataFromServer[i].email}','${dataFromServer[i].password}')"id="delete">Delete</button>
       </div>
       
   `;
@@ -27,6 +29,7 @@ const fetchData = async () => {
   users();
 };
 fetchData();
+
 const registerHandler = async (e) => {
   const nameTag = document.querySelector(".userName");
   const emailTag = document.querySelector(".email");
@@ -36,11 +39,28 @@ const registerHandler = async (e) => {
   let email = emailTag.value;
   let password = passwordTag.value;
 
-  const response = await fetch("http://localhost:3000/users", {
-    method: "POST",
-    body: JSON.stringify({ name: name, email: email, password: password }),
+  const url = "http://localhost:3000/users";
+  const responseE = await fetch(url);
+  const dataFromServer = await responseE.json();
+  const isHasEmail = dataFromServer.some((user) => {
+    console.log(user.email === email, user.email, email);
+    return user.email === email;
   });
-  console.log(await response.json());
+  console.log(isHasEmail);
+  const check = async () => {
+    if (isHasEmail) {
+      alert("user already exist..");
+      return;
+    } else {
+      const response = await fetch("http://localhost:3000/users", {
+        method: "POST",
+        body: JSON.stringify({ name: name, email: email, password: password }),
+      });
+    }
+  };
+  await check();
+
+  //console.log(await response.json());
   await fetchData();
   await clearInput();
 };
@@ -64,7 +84,7 @@ const updateInput = async (name, email, password) => {
 
   // console.log(await response.json());
 };
-const updateHandler = async (name, email, password) => {
+const updateHandler = async () => {
   const nameTag = document.querySelector(".userName");
   const emailTag = document.querySelector(".email");
   const passwordTag = document.querySelector(".password");
@@ -80,3 +100,33 @@ const updateHandler = async (name, email, password) => {
 
   await fetchData();
 };
+const deleteHandler = async (name, email, password) => {
+  const emailTag = document.querySelector(".email");
+  emailTag.value = email;
+  console.log(emailTag.value, email);
+  const response = fetch(url, {
+    method: "DELETE",
+    body: JSON.stringify({ email }),
+  });
+  await fetchData();
+  await clearInput();
+
+  //   await fetchData();
+  //   const deleteBtn = Array.from(
+  //     document.querySelectorAll(".deleteBtnForDelete")
+  //   );
+  //   console.log(deleteBtn[0]);
+  //   for (j = 0; j < deleteBtn.length; j++) {
+  //     deleteBtn[j].addEventListener("click", async function (event) {
+  //       const deleteDiv = event.target.parentElement.parentElement;
+  //       const span = deleteDiv.getElementsByClassName("user-email");
+  //       console.log(span.innerHTML);
+  //       // the button that was clicked
+  //       // const response = await fetch(url,{
+  //       //   method:"DELETE",
+  //       //   body:JSON.stringify(name:name )
+  //       // });
+  //     });
+  //   }
+};
+deleteHandler();
