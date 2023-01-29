@@ -104,7 +104,13 @@ const updateHandler = async () => {
       updateAt: date,
     }),
   });
-
+  const checker = () => {
+    if (!response.ok) {
+      alert("error");
+      clearInput();
+    }
+  };
+  await checker();
   await fetchData();
 };
 const deleteHandler = async (name, email, password) => {

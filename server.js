@@ -89,6 +89,8 @@ const server = http.createServer((req, res) => {
           console.log(users);
           res.end();
         } else {
+          res.writeHead(404);
+          res.write("error");
           console.log(" user is not found...");
           res.end();
         }
