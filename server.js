@@ -1,5 +1,9 @@
 const fs = require("fs");
 const http = require("http");
+function newDate() {
+  const date = new Date();
+  return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+}
 const date = new Date();
 console.log(`${date.toLocaleDateString()} ${date.toLocaleTimeString()}`);
 const users = [
@@ -55,6 +59,8 @@ const server = http.createServer((req, res) => {
       });
       req.on("end", () => {
         const newUser = JSON.parse(data);
+        newUser.createAt = newDate();
+        newUser.updateAt = newDate();
         users.push(newUser);
         res.writeHead(200, { "Content-Type": "application/json" });
         res.write(JSON.stringify({ users }));
@@ -70,13 +76,14 @@ const server = http.createServer((req, res) => {
       req.on("end", () => {
         const changeUser = JSON.parse(data);
         //this updateAt is not change in database brother--check this
-        changeUser.updateAt = `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()} `;
         const newName = changeUser.name;
         const isHasEmail = users.find(
           (user) => user.email === changeUser.email
         );
         if (isHasEmail) {
           isHasEmail.name = newName;
+          isHasEmail.updateAt = newDate(); //i wrong changeUser.updateAt
+
           res.writeHead(200, { "Content-Type": "application/json" });
           res.write(JSON.stringify(users));
           console.log(users);
