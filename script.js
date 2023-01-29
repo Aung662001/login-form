@@ -15,7 +15,9 @@ const fetchData = async () => {
       <div class="user">
         <span class="user-name"><b>User name:</b>${dataFromServer[i].name}</span><br>
         <span class="user-email"><b>Email:</b>${dataFromServer[i].email}</span><br>
-        <span class="password"><b>Pass:${dataFromServer[i].password}</span>
+        <span class="password"><b>Pass:${dataFromServer[i].password}</span><br>
+        <span >CreateAt:${dataFromServer[i].createAt}</span><br>
+        <span >CreateAt:${dataFromServer[i].updateAt}</span><br>
         <button type="button" class="btn btn-primary update" onclick="updateInput(
           '${dataFromServer[i].name}','${dataFromServer[i].email}','${dataFromServer[i].password}')">Update</button>
         <button type="button" class="btn btn-danger deleteBtnForDelete" onclick="deleteHandler
@@ -39,7 +41,6 @@ const registerHandler = async (e) => {
   let email = emailTag.value;
   let password = passwordTag.value;
 
-  const url = "http://localhost:3000/users";
   const responseE = await fetch(url);
   const dataFromServer = await responseE.json();
   const isHasEmail = dataFromServer.some((user) => {
@@ -92,10 +93,16 @@ const updateHandler = async () => {
   let nameC = nameTag.value;
   let emailC = emailTag.value;
   let passwordC = passwordTag.value;
+  let date = new Date();
 
   const response = await fetch("http://localhost:3000/users", {
     method: "PUT",
-    body: JSON.stringify({ name: nameC, email: emailC, password: passwordC }),
+    body: JSON.stringify({
+      name: nameC,
+      email: emailC,
+      password: passwordC,
+      updateAt: date,
+    }),
   });
 
   await fetchData();
@@ -129,4 +136,3 @@ const deleteHandler = async (name, email, password) => {
   //     });
   //   }
 };
-deleteHandler();

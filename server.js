@@ -1,11 +1,22 @@
 const fs = require("fs");
 const http = require("http");
-
+const date = new Date();
+console.log(`${date.toLocaleDateString()} ${date.toLocaleTimeString()}`);
 const users = [
-  { name: "user1", email: "user1@gmail.com", password: "dsdddfsf" },
-  { name: "user2", email: "user2@gmail.com", password: "dergfg" },
-  { name: "user3", email: "user3@gmail.com", password: "dsddsf" },
-  { name: "user4", email: "user4@gmail.com", password: "dsdsf" },
+  {
+    name: "user1",
+    email: "user1@gmail.com",
+    password: "dsdddfsf",
+    createAt: `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`,
+    updateAt: `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`,
+  },
+  {
+    name: "user2",
+    email: "user2@gmail.com",
+    password: "dergfg",
+    createAt: `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`,
+    updateAt: `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`,
+  },
 ];
 
 const server = http.createServer((req, res) => {
@@ -58,8 +69,9 @@ const server = http.createServer((req, res) => {
       });
       req.on("end", () => {
         const changeUser = JSON.parse(data);
-        console.log(changeUser);
-        const newName = JSON.parse(data).name;
+        //this updateAt is not change in database brother--check this
+        changeUser.updateAt = `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()} `;
+        const newName = changeUser.name;
         const isHasEmail = users.find(
           (user) => user.email === changeUser.email
         );
