@@ -1,3 +1,4 @@
+const { errorMonitor } = require("events");
 const fs = require("fs");
 const http = require("http");
 function newDate() {
@@ -117,6 +118,30 @@ const server = http.createServer((req, res) => {
         }
       });
     }
+    // } else if (req.url === "/fileUpload") {
+    //   data = "";
+    //   req.on("data", (chunk) => {
+    //     data += chunk;
+    //   });
+    //   req.on("end", () => {
+    //     const fileType = req.headers["content-type"].split("/")[1];
+    //     const writeStream = fs.createWriteStream(`file.${fileType}`);
+    //     req.pipe(writeStream);
+    //     console.log(writeStream.path);
+    //     res.writeHead(200, { "Content-Type": "application/json" });
+    //     res.write(JSON.stringify({ message: "upload done" }));
+    //     res.end();
+    //   });
+  } else if (req.url == "/fileUpload") {
+    console.log(req.headers["content-type"]);
+    const fileType = req.headers["content-type"].split("/")[1];
+    const writeStream = fs.createWriteStream(`file.${fileType}`);
+    req.pipe(writeStream);
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.write(JSON.stringify({ test: "upload success" }));
+    res.end();
+  } else {
+    res.writeHead(404, JSON.stringify({ message: "error" }));
   }
 });
 

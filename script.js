@@ -89,7 +89,7 @@ const updateHandler = async () => {
   const nameTag = document.querySelector(".userName");
   const emailTag = document.querySelector(".email");
   const passwordTag = document.querySelector(".password");
-  emailTag.ariaDisabled;
+  emailTag.addAttribute("disible");
   let nameC = nameTag.value;
   let emailC = emailTag.value;
   let passwordC = passwordTag.value;
@@ -116,9 +116,9 @@ const updateHandler = async () => {
   await clearInput();
 };
 const deleteHandler = async (name, email, password) => {
-  const emailTag = document.querySelector(".email");
-  emailTag.value = email;
-  console.log(emailTag.value, email);
+  //const emailTag = document.querySelector(".email");
+  //emailTag.value = email;
+  // console.log(emailTag.value, email);
   const response = fetch(url, {
     method: "DELETE",
     body: JSON.stringify({ email }),
@@ -143,4 +143,11 @@ const deleteHandler = async (name, email, password) => {
   //       // });
   //     });
   //   }
+};
+const handleFileUpload = async () => {
+  const fileTag = document.querySelector("#fileUpload");
+  const response = await fetch("http://localhost:3000/fileUpload", {
+    method: "POST",
+    body: fileTag.files[0],
+  });
 };
